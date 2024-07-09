@@ -48,13 +48,14 @@ public class PlayerController : CharacterController
         moveDirection.Normalize();
         moveDirection.y = 0;
 
+        
         if (PlayerInputManager.instance.moveAmount > 0.5f)
         {
-            playerManager.rigidbody.velocity = moveDirection * runningSpeed;
+            playerManager._rigidbody.velocity = moveDirection * runningSpeed;
         }
         else if (PlayerInputManager.instance.moveAmount <= 0.5f)
         {
-            playerManager.rigidbody.velocity = moveDirection * walkingSpeed;
+            playerManager._rigidbody.velocity = moveDirection * walkingSpeed;
         }
     }
 

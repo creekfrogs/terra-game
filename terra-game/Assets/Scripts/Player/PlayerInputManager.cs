@@ -6,13 +6,19 @@ public class PlayerInputManager : MonoBehaviour
 {
     public static PlayerInputManager instance;
     PlayerControls playerControls;
+    public PlayerManager player;
 
     [Header("Movement")]
     [SerializeField] Vector2 movementInput;
     public float moveAmount;
     [HideInInspector] public float horizontalInput;
     [HideInInspector] public float verticalInput;
+
     
+    [Header("Camera")]
+    [SerializeField] Vector2 cameraInput;
+    [HideInInspector] public float cameraHorizontalInput;
+    [HideInInspector] public float cameraVerticalInput;
 
     private void Awake()
     {
@@ -30,6 +36,7 @@ public class PlayerInputManager : MonoBehaviour
         }
 
         playerControls.Locomotion.Move.performed += i => movementInput = i.ReadValue<Vector2>();
+        playerControls.Camera.Look.performed += i => cameraInput = i.ReadValue<Vector2>();
 
         playerControls.Enable();
     }
@@ -37,6 +44,7 @@ public class PlayerInputManager : MonoBehaviour
     private void Update()
     {
         HandleMovementInput();
+        HandleCameraMovementInput();
     }
 
     private void HandleMovementInput()
@@ -44,15 +52,24 @@ public class PlayerInputManager : MonoBehaviour
         verticalInput = movementInput.y;
         horizontalInput = movementInput.x;
 
-        moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput + horizontalInput));
+        moveAmount = (Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
+        moveAmount = Mathf.Clamp01(moveAmount);
 
-        if (moveAmount <= 0.5 && moveAmount > 0)
+        if(moveAmount > 0 && moveAmount < 0.5)
         {
             moveAmount = 0.5f;
         }
-        else if (moveAmount > 0.5 & moveAmount <= 1)
+        else if(moveAmount >= 0.5 && moveAmount < 1)
         {
-            moveAmount = 1;
+            moveAmount = 1f;
         }
+
+        player.playerAnimatorManager.UpdateAnimatorMovementParams(0, moveAmount);
+    }
+    
+    private void HandleCameraMovementInput()
+    {
+        cameraVerticalInput = cameraInput.y;
+        cameraHorizontalInput = cameraInput.x;
     }
 }

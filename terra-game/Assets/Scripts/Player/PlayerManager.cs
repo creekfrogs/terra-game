@@ -5,12 +5,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : CharacterManager
 {
-    PlayerController playerController;
+    [HideInInspector] public PlayerController playerController;
+    [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
     protected override void Awake()
     {
         base.Awake();
 
         playerController = GetComponent<PlayerController>();
+        playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+
         PlayerCamera.instance.player = this;
     }
 

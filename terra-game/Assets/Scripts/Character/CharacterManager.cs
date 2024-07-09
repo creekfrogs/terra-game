@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
-    public Rigidbody rigidbody;
+    [HideInInspector] public Rigidbody _rigidbody;
+    [HideInInspector] public Animator _animator;
 
     protected virtual void Awake()
     {
         DontDestroyOnLoad(this);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
-        rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
     }
 
     protected virtual void Update()
