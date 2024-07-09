@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : CharacterController
 {
     PlayerManager playerManager;
+    public Rigidbody rb;
 
     [Header("Locomotion")]
     private float verticalMovement;
@@ -28,6 +29,7 @@ public class PlayerController : CharacterController
     public void HandleAllMovement()
     {
         HandleGroundedMovement();
+
         HandleRotation();
     }
 
@@ -48,14 +50,13 @@ public class PlayerController : CharacterController
         moveDirection.Normalize();
         moveDirection.y = 0;
 
-        
         if (PlayerInputManager.instance.moveAmount > 0.5f)
         {
-            playerManager._rigidbody.velocity = moveDirection * runningSpeed;
+            rb.AddForce(moveDirection * runningSpeed, ForceMode.VelocityChange);
         }
         else if (PlayerInputManager.instance.moveAmount <= 0.5f)
         {
-            playerManager._rigidbody.velocity = moveDirection * walkingSpeed;
+            rb.AddForce(moveDirection * walkingSpeed, ForceMode.VelocityChange);
         }
     }
 

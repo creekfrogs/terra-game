@@ -64,7 +64,7 @@ public class PlayerInputManager : MonoBehaviour
             moveAmount = 1f;
         }
 
-        player.playerAnimatorManager.UpdateAnimatorMovementParams(0, moveAmount);
+        player.playerAnimatorManager.UpdateAnimatorMovementParams(horizontalInput, verticalInput);
     }
     
     private void HandleCameraMovementInput()
